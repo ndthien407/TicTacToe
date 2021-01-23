@@ -35,11 +35,9 @@ def game_continue(board):
             return False
         if diagonal_2 (board, 2, mark):
             return False 
-    if is_draw(board):
 
-        return False
     
-    return True
+    return not is_draw(board) # return True
 if __name__ == "__main__" :
     
     #tạo 2 người chơi, tại dòng 
@@ -47,13 +45,21 @@ if __name__ == "__main__" :
     print("Welcome to Tic Tac Toe")
     print("Choose player, type X or O \nChoose X if you want go first")
     """Get Player """
-    player_1= input().upper()
-    if player_1 == "X":
-        player_2 = "O"
-        current_player = player_1
-    elif player_1== "O":
-        player_2 = "X"
-        current_player = player_2
+    
+    while True:
+        player_1= input().upper()
+        if player_1 == "X":
+            player_2 = "O"
+            current_player = player_1
+            break
+        elif player_1== "O":
+            player_2 = "X"
+            current_player = player_2
+            break
+        else:
+            print("Please Choose Again !!!")
+            continue
+                    
     print("Player 1 : ", player_1)
     print("Player 2 : ", player_2)
     
@@ -72,15 +78,38 @@ if __name__ == "__main__" :
     print_board(board)
     
     while game_continue(board):
-        print("Player",current_player,"turn :")
-        move = int(input())
         
-        if move >=1 and move <= 9:
+        print("Player",current_player,"turn :")
+        try : 
+            move = int(input())
+        except Exception as e:
+
+            print("Choose 1 - 9 for each turn")
+
+            print_board(board)            
+            continue
+        
+        if board[move - 1] == "O" or board[move -1] == "X":
+
+            print("Your place had been chosen")
+            print("Pls , choose again !")
+
+            print_board(board)
+
+            continue
+        
+        if move >=1 and move <= 9 :
             board[move - 1] = current_player
-
-        # tạo bảng để add số vào vị trí :
+        
+        else:
+            print("Eror, Try Again!!")
+            print_board(board)
+            continue
+            
+        # hien thi bảng để add số vào vị trí :
+        
         print_board(board)
-
+        
         if not game_continue(board):
             break
         
@@ -92,10 +121,33 @@ if __name__ == "__main__" :
 
         #trường hợp - thắng/thua/hòa -
     if is_draw(board):
-        print("DRAW")
+        print("\nDRAW")
     else:
         print("\nWinner is : ",current_player)
 
-    #xoa so trong board
-    #Chi dien X / O neu khong phai ki tu X/O thi phai ghi lai
-    """lỗi : nếu điền cùng lúc 2 số sẽ không nhận. """
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
